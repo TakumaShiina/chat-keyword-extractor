@@ -15,11 +15,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // URLからチャットデータを取得
+    // より多くのヘッダーを追加
     const response = await axios.get(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml',
+        'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
+        'Referer': 'https://stripchat.com/',
+        'Origin': 'https://stripchat.com'
       },
+      timeout: 10000
     });
 
     // HTMLをパース
@@ -82,7 +87,9 @@ export default async function handler(req, res) {
     console.error('Error fetching chat data:', error);
     return res.status(500).json({ 
       error: 'チャットデータの取得中にエラーが発生しました',
-      details: error.message 
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+      url: url // URLを返して確認
     });
   }
 }

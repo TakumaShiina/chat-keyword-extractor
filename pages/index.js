@@ -180,6 +180,22 @@ export default function Home() {
       ));
   };
 
+  const loadDemoData = () => {
+    const demoMessages = [
+      // サンプルメッセージをここに追加
+      {
+        id: '1',
+        text: '[メッセージ] 100トークン：ありがとう！ 【user1】',
+        type: 'メッセージ',
+        checked: false,
+        timestamp: new Date().toISOString()
+      },
+      // ... 他のデモメッセージ
+    ];
+    setMessages(demoMessages);
+    saveSettings('messages', demoMessages);
+  };
+
   // 内容でグループ化表示
   const renderGroupedContent = () => {
     const groupedMessages = {};
@@ -363,8 +379,11 @@ export default function Home() {
           <div className="action-buttons">
             <button onClick={removeCheckedItems}>チェック済みの項目を削除</button>
             <button onClick={resetData}>リセット</button>
+            <button onClick={loadDemoData} className="demo-button">デモデータを表示</button>
           </div>
         </div>
+
+
 
         {/* 除外ワード設定モーダル */}
         {showModal && (
